@@ -979,6 +979,19 @@ class DaemonDescriptor:
         # accepts "localhost" by name, which says nothing about where the
         # resolver on this machine actually sends it.
         hostname = parsed.hostname or ""
+        # A trailing root dot is valid for a DNS name such as ``localhost.``,
+        # but not for an address literal.  ``getaddrinfo`` accepts
+        # ``127.0.0.1.`` as loopback, even though this descriptor must reject
+        # the malformed endpoint spelling before any bearer token is sent.
+        if hostname.endswith("."):
+            try:
+                ipaddress.ip_address(hostname.rstrip("."))
+            except ValueError:
+                pass
+            else:
+                raise DescriptorError(
+                    f"The daemon descriptor's host {self.host!r} is not a usable address literal"
+                )
         try:
             # An address literal is its own answer, and asking the resolver
             # about one would be a needless trip through a component that can
