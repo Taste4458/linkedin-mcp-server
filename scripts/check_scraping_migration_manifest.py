@@ -259,6 +259,8 @@ _EXPLICIT_INSTANCE_BINDINGS = {
 _OWNER_FACTORIES: dict[str, tuple[str, ...]] = {
     "tests/scraping/test_person.py": ("_scraper",),
     "tests/scraping/test_company.py": ("_scraper",),
+    "tests/scraping/test_job_pages.py": ("_reader",),
+    "tests/scraping/test_jobs.py": ("_scraper",),
 }
 
 _EXPLICIT_CALLER_CONTEXTS: dict[tuple[str, str, str], tuple[str, ...]] = {
@@ -292,8 +294,6 @@ _EXPLICIT_CALLER_CONTEXTS: dict[tuple[str, str, str], tuple[str, ...]] = {
         "boundaries",
         "detect_rate_limit",
     ): (
-        "_extract_search_page_once",
-        "_extract_saved_jobs_page_once",
         "_resolve_conversation_thread_urls",
         "_open_conversation_by_username",
         "get_inbox",
@@ -306,8 +306,6 @@ _EXPLICIT_CALLER_CONTEXTS: dict[tuple[str, str, str], tuple[str, ...]] = {
         "boundaries",
         "handle_modal_close",
     ): (
-        "_extract_search_page_once",
-        "_extract_saved_jobs_page_once",
         "_resolve_conversation_thread_urls",
         "_open_conversation_by_username",
         "get_inbox",
